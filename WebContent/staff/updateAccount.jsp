@@ -81,9 +81,9 @@
 					<li class="active"><a href="/Test/StaffAccountController?action=registerStaff&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-pencil-square-o"></i>Register Staff</a><% } %></li>
 					<li class="active"><a href="/Test/StaffAccountController?action=viewAccount&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-user"></i>View Account</a></li>
 					<li class="active"><a href="/Test/StaffAccountController?action=updateAccount&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-refresh"></i>Update Account</a></li> 
-					<li class="active"><a href="/Test/EventController?action=viewEvent&email=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-tasks"></i>View Event</a></li>
-					<li class="active"><a href="/Test/EventController?action=createIndoorEvent&email=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-building-o"></i>Create Indoor Event</a></li> 
-					<li class="active"><a href="/Test/Test/EventController?action=createIndoorEvent&email=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-rocket"></i>Create Outdoor Event</a></li>
+					<li class="active"><a href="/Test/EventController?action=viewEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-tasks"></i>View Event</a></li>
+					<li class="active"><a href="/Test/EventController?action=createIndoorEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-building-o"></i>Create Indoor Event</a></li> 
+					<li class="active"><a href="/Test/Test/EventController?action=createOutdoorEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-rocket"></i>Create Outdoor Event</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
