@@ -2,6 +2,16 @@ package mosque.controller;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -63,7 +73,7 @@ public class EventController extends HttpServlet {
 			forward = VIEWEVENT;        
             String id = request.getParameter("id");//current section bean
             StaffBean user = sdao.getUserByID(id); //guna staff sebab nak capture dia punya session
-            request.setAttribute("user", user);
+            request.setAttribute("events", dao.getAllEvent()); 
         }
 		else if (action.equalsIgnoreCase("createIndoorEvent")){
 			forward = INDOOR;        
@@ -72,10 +82,10 @@ public class EventController extends HttpServlet {
             request.setAttribute("user", user);
         }
 		else if (action.equalsIgnoreCase("createOutdoorEvent")){
-			forward = INDOOR; 
+			forward = OUTDOOR; 
 			String id = request.getParameter("id");//current section bean
 			StaffBean user = sdao.getUserByID(id); //guna staff sebab nak capture dia punya session
-            request.setAttribute("events", dao.getAllEvent()); 
+            request.setAttribute("user", user); 
         }
 		
 	    else {
@@ -94,50 +104,70 @@ public class EventController extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		
+   
+		String startdate = request.getParameter("istartdatetime");
+		System.out.println(startdate);
 
+    
 		StaffBean user = new StaffBean();
-		user.setStaffEmail(request.getParameter("email"));//email tu nama dari textfield dalam interface register...
+		user.setStaffID(request.getParameter("idadmin"));//set staffid
 
 		EventBean event = new EventBean();
+		int fee = Integer.parseInt(request.getParameter("ifee"));
+		
 		event.setEventid(request.getParameter("eventid"));
-		event.setEventname(request.getParameter("eventname"));
-		event.setEventstaffincharges(request.getParameter("eventstaffincharges"));
-		event.setEventfee(request.getParameter("eventfee"));
-		event.setEventdatestarttime(request.getParameter("eventdatestarttime"));
-		event.setEventdateendtime(request.getParameter("eventdateendtime"));
+		event.setEventname(request.getParameter("iname"));
+		event.setEventstaffincharges(request.getParameter("istaffincharges"));
+		event.setEventfee(fee);
+		event.setEventdatestarttime(request.getParameter("istartdatetime"));
+		event.setEventdateendtime(request.getParameter("ienddatetime"));
 		event.setStaffid(request.getParameter("staffid"));
-		
-		IndoorEventBean iEventBean = new IndoorEventBean();
-		iEventBean.setEventid(request.getParameter("eventid"));
-		iEventBean.setIndoorvenue(request.getParameter("indoorvenue"));
-		iEventBean.setIndoorguestname(request.getParameter("indoorguestname"));
-		
-		OutdoorEventBean oEventBean = new OutdoorEventBean();
-		oEventBean.setEventid(request.getParameter("eventid"));
-		oEventBean.setOutdoorplace(request.getParameter("outdoorplace"));
-		oEventBean.setOutdoordate(request.getParameter("outdoordate"));
-		oEventBean.setOrganizername(request.getParameter("organizername"));
-		
+		event.setStaffid(request.getParameter("idadmin")); // dy akan ambik current staff yg login untuk create event
+				
 		System.out.println("baru bind data");
-		String eventid = request.getParameter("eventid");
-		String ieventid = request.getParameter("indoorvenue");
-		String oeventid = request.getParameter("outdoorplace");
+		String indoor = request.getParameter("indoor");
+		String outdoor = request.getParameter("outdoor");
 		String email = request.getParameter("email");
 		
-		user.setStaffEmail(email);
-		
-		user = StaffDAO.getUser(user);
+//		user.setStaffEmail(email);
+//		
+//		user = StaffDAO.getUser(user);
 
 		if(!user.isValid()){//untuk nk tgk user valid atau x..
         	try { 
-        		if (oeventid == null) { //kalau outdoor event xda id masuk data dalam indoor event
-        			dao.add(event);
+        		dao.add(event);
+       		
+        		EventBean idforchild = dao.getEventbyID();
+        		System.out.println(idforchild);
+        		
+        		if (indoor.equalsIgnoreCase("indoor")) { //kalau outdoor event xda id masuk data dalam indoor event
+        			String i = idforchild.getEventid();
+        			
+        			
+        			System.out.println(i);
+        			
+        			
+        			IndoorEventBean iEventBean = new IndoorEventBean();
+        			iEventBean.setEventid(i);
+        			iEventBean.setIndoorvenue(request.getParameter("ivenue"));
+        			iEventBean.setIndoorguestname(request.getParameter("igname"));
+        			
     				idao.add(iEventBean);
-    				System.out.println("Event Created");
-        		} else if (ieventid == null) { //kalau indoor event xda id masuk data dalam indoor event
-        			dao.add(event);
+    				System.out.println("Indoor Event Created !!!!!!");
+        		} else if (outdoor.equalsIgnoreCase("outdoor")) { //kalau indoor event xda id masuk data dalam indoor event
+        			String i = idforchild.getEventid();
+        			
+        			
+        			System.out.println(i);
+        			
+        			
+        			OutdoorEventBean oEventBean = new OutdoorEventBean();
+        			oEventBean.setEventid(i);
+        			oEventBean.setOutdoorplace(request.getParameter("ovenue"));
+        			oEventBean.setOrganizername(request.getParameter("oname"));
+        			
     				odao.add(oEventBean);
-    				System.out.println("Event Created");
+    				System.out.println("Outdoor Event Created !!!!!!");
 				}
 			
 			} catch (NoSuchAlgorithmException e) {
@@ -160,7 +190,7 @@ public class EventController extends HttpServlet {
 		
         else{ // when user is already valid
         	        	
-            RequestDispatcher view = request.getRequestDispatcher(VIEW);
+            RequestDispatcher view = request.getRequestDispatcher(VIEWEVENT);
             request.setAttribute("user", sdao.getUserByEmail(email));
             view.forward(request, response);
         }

@@ -47,70 +47,56 @@
 <link
 	href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800'
 	rel='stylesheet' type='text/css'>
+	
+<!-- JS untuk time picker.. perlukan internet -->	
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+
 <!-- Special staff register -->
 <script>
 function clearInputs() {
 	   document.getElementById('myTextarea').value = '';
 	}
-
+	
 	function validateForm() {
 
-	    var name = document.forms["myForm"]["name"].value;
-	    var address = document.getElementById("myTextarea").value;
-	    var phone = document.forms["myForm"]["notel"].value;
-	    var email = document.forms["myForm"]["email"].value;
-	    var password = document.forms["myForm"]["password"].value;
-	  
-	    if (name == "") {
-	        document.getElementById("errorname").innerHTML = "Name cannot be empty !";
+	    var eventname = document.forms["myForm"]["iname"].value;
+	    var staffincharge = document.forms["myForm"]["istaffincharges"].value;
+	    var fee = document.forms["myForm"]["ifee"].value;
+	    var venue = document.getElementById("myTextarea").value; 
+	    var igname = document.forms["myForm"]["igname"].value;
+	    
+	    if (eventname == "") {
+	        document.getElementById("errorevent").innerHTML = "Event cannot be empty !";
 	        return false; 
-	    } else if (/^[a-zA-Z.]{1,50}$/.test(name) != true) {
-	        document.getElementById("errorname").innerHTML = "name is less than 50 character";
+	    } else if (staffincharge == "") {
+	        document.getElementById("errorstaffincharge").innerHTML = "Staff in charges cannot be empty !";
+	        document.getElementById("errorevent").innerHTML = "";
 	        return false;
-	    } else if (address == "") {
-	        document.getElementById("erroraddress").innerHTML = "Address cannot be empty !";
-	        document.getElementById("errorname").innerHTML = "";
+	    } else if (isNaN(fee) == true) {
+	        document.getElementById("errorfee").innerHTML = "Please enter number only !";
+	        document.getElementById("errorevent").innerHTML = "";
+	        document.getElementById("errorstaffincharge").innerHTML = "";
 	        return false;
-	    } else if (phone == "") {
-	        document.getElementById("errorphone").innerHTML = "Phone Number cannot be empty !";
-	        document.getElementById("erroraddress").innerHTML = "";
-	        document.getElementById("errorname").innerHTML = "";
+	    } else if (venue == "") {
+	        document.getElementById("errorvenue").innerHTML = "Venue cannot be empty !";
+	        document.getElementById("errorevent").innerHTML = "";
+	        document.getElementById("errorstaffincharge").innerHTML = "";
+	        document.getElementById("errorfee").innerHTML = "";
 	        return false;
-	    } else if (isNaN(phone) == true) {
-	        document.getElementById("errorphone").innerHTML = "Please enter number only !";
-	        return false;
-	    } else if (email == "") {
-	        document.getElementById("erroremail").innerHTML = "Email cannot be empty !";
-	        document.getElementById("errorphone").innerHTML = "";
-	        document.getElementById("erroraddress").innerHTML = "";
-	        document.getElementById("errorname").innerHTML = "";
-	        return false;
-	    } else if (/^[^0-9][A-z0-9_]+[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/.test(email) != true) {
-	        document.getElementById("erroremail").innerHTML = "Your e-mail is NOT valid. Try again...";
-	        return false;
-	    } else if (password == "") {
-	        document.getElementById("errorpassword").innerHTML = "Password cannot be empty !";
-	        document.getElementById("erroremail").innerHTML = "";
-	        document.getElementById("errorphone").innerHTML = "";
-	        document.getElementById("erroraddress").innerHTML = "";
-	        document.getElementById("errorname").innerHTML = "";
-	        return false;
-	    } else if (/^[a-zA-Z0-9.]{5,12}$/.test(password) != true) {
-	        document.getElementById("errorpassword").innerHTML = "Password 5 - 12 characters only";
-	        document.getElementById("erroremail").innerHTML = "";
-	        document.getElementById("errorphone").innerHTML = "";
-	        document.getElementById("erroraddress").innerHTML = "";
-	        document.getElementById("errorname").innerHTML = "";
+	    } else if (igname == "") {
+	        document.getElementById("errorguest").innerHTML = "Guest name cannot be empty !";
+	        document.getElementById("errorvenue").innerHTML = "";
+	        document.getElementById("errorevent").innerHTML = "";
+	        document.getElementById("errorstaffincharge").innerHTML = "";
+	        document.getElementById("errorfee").innerHTML = "";
 	        return false;
 	    } 
-	    document.getElementById("errorpassword").innerHTML = "";
 	    alert("Registration Successfull !");   
 	}
-
-
 </script>
-
-
 
 
 </head>
@@ -147,7 +133,7 @@ function clearInputs() {
 					<li class="active"><a href="/Test/StaffAccountController?action=updateAccount&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-refresh"></i>Update Account</a></li> 
 					<li class="active"><a href="/Test/EventController?action=viewEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-tasks"></i>View Event</a></li>
 					<li class="active"><a href="/Test/EventController?action=createIndoorEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-building-o"></i>Create Indoor Event</a></li> 
-					<li class="active"><a href="/Test/Test/EventController?action=createIndoorEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-rocket"></i>Create Outdoor Event</a></li>				
+					<li class="active"><a href="/Test/EventController?action=createOutdoorEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-rocket"></i>Create Outdoor Event</a></li>				
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -188,7 +174,7 @@ function clearInputs() {
 				<div class="col-sm-5">
 					<div class="user-area dropdown float-right">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<h5>Welcome<c:out value="<%=name%>" />, Love to see you back.</h5>
+							<h5>Welcome <c:out value="<%=name%>" />, Love to see you back.</h5>
 						</a>
 
 						<div class="user-menu dropdown-menu">
@@ -211,60 +197,58 @@ function clearInputs() {
 
 				<div class="card">
 					<div class="card-header">
-						<strong>Registration Form</strong>  
+						<strong>Indoor Event Form</strong>  
 					</div>
 					<div class="card-body card-block">
-						<form name="myForm" onsubmit="return validateForm()" method="post" action="StaffAccountController" class="form-horizontal">
+						<form name="myForm" onsubmit="return validateForm()" method="post" action="EventController" class="form-horizontal">		
+						<!-- PARENT EVENT -->					
 							<div class="row form-group">
+                         		<div class="col col-md-3"><label for="text-input" class=" form-control-label">Event Name :</label></div>
+                            	<div class="col-12 col-md-9"><input type="text" id="text-input" name="iname" placeholder="Enter Event Name.." class="form-control"><span class="help-block" id="errorevent" style="color:red;"></span></div>
+                            </div>
+                            <div class="row form-group">
+                         		<div class="col col-md-3"><label for="text-input" class=" form-control-label">Staff in charges :</label></div>
+                            	<div class="col-12 col-md-9"><input type="text" id="text-input" name="istaffincharges" placeholder="Enter Names of staff in charge for the event.." class="form-control"><span class="help-block" id="errorstaffincharge" style="color:red;"></span></div>
+                            </div>                         
+                            <div class="row form-group">
+                         		<div class="col col-md-3"><label for="text-input" class=" form-control-label">Event fee :</label></div>
+                            	<div class="col-12 col-md-9"><input type="text" id="text-input" name="ifee" placeholder="0" class="form-control" value=0><small>write 0 for free event</small><span class="help-block" id="errorfee" style="color:red;"></span></div>
+                            </div>                         
+            				<div class="row form-group">
+            					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Event Start Date/Time :</label></div>
+              					<div class="input-group date col-12 col-md-9" id="datetimepicker1" data-target-input="nearest">
+                   			  	<input type="text" name="istartdatetime" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+                    				<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                        			<div class="input-group-text"><i class="fa fa-calendar"></i>
+                        			</div>
+                   					</div>
+                				</div>
+            				</div>
+            				<div class="row form-group">
+            					<div class="col col-md-3"><label for="text-input" class=" form-control-label">Event End Date/Time :</label></div>
+              					<div class="input-group date col-12 col-md-9" id="datetimepicker2" data-target-input="nearest">
+                   			  	<input type="text" name="ienddatetime" class="form-control datetimepicker-input" data-target="#datetimepicker2"/>
+                    				<div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                        			<div class="input-group-text"><i class="fa fa-calendar"></i>
+                        			</div>
+                   					</div>
+                				</div>
+            				</div>
+        					<div class="row form-group">
                               	<div class="col-12 col-md-9"><input type="hidden" id="disabled-input" name="idadmin" value="<c:out value="${user.staffID}" />" class="form-control"></div>
+                              	<input type="hidden" name="indoor" value="indoor" />
+                              	<input type="hidden" name="outdoor" value="indoor" />
                           	</div>
-							<div class="row form-group">
-                         		<div class="col col-md-3"><label for="text-input" class=" form-control-label">Name :</label></div>
-                            	<div class="col-12 col-md-9"><input type="text" id="text-input" name="name" placeholder="Enter Name.." class="form-control"><span class="help-block" id="errorname" style="color:red;"></span></div>
+                          	
+  						<!-- CHILD EVENT -->
+        					<div class="row form-group">
+                              	<div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Indoor Venue </label></div>
+								<div class="col-12 col-md-9"><textarea name="ivenue" id="myTextarea" rows="9" cols="53" form="myform"  placeholder="Enter Indoor Venue.." class="form-control"></textarea><span class="help-block" id="errorvenue" style="color:red;"> </span></div>
                             </div>
-                            <div class="row form-group">
-                              	<div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Home Address</label></div>
-								<div class="col-12 col-md-9"><textarea name="address" id="myTextarea" rows="9" cols="53" form="myform"  placeholder="Enter Address.." class="form-control"></textarea><span class="help-block" id="erroraddress" style="color:red;"> </span></div>
+         					<div class="row form-group">
+                         		<div class="col col-md-3"><label for="text-input" class=" form-control-label">Guest Name :</label></div>
+                            	<div class="col-12 col-md-9"><input type="text" id="text-input" name="igname" placeholder="Enter Guest Name.." class="form-control"><span class="help-block" id="errorguest" style="color:red;"></span></div>
                             </div>
-                            <div class="row form-group">
-                         		<div class="col col-md-3"><label for="text-input" class=" form-control-label">Phone Number :</label></div>
-                            	<div class="col-12 col-md-9"><input type="text" id="text-input" name="notel" placeholder="Enter Phone Number.." class="form-control"><span class="help-block" id="errorphone" style="color:red;"></span></div>
-                            </div>
-							<div class="row form-group">
-								<div class="col col-md-3"><label for="hf-email" class=" form-control-label">Email</label></div>
-								<div class="col-12 col-md-9"><input type="email" id="hf-email" name="email" placeholder="Enter Email..." class="form-control"><span class="help-block" id="erroremail" style="color:red;"></span></div> 
-							</div>
-							<div class="row form-group">
-                            	<div class="col col-md-3"><label class=" form-control-label">Position</label></div>
-                            	<div class="col col-md-9">
-                                <div class="form-check">
-                                	<div class="radio">
-                                		<label for="radio1" class="form-check-label ">
-                                    		<input type="radio" id="radio1" name="position" value="Imam" class="form-check-input" checked="checked">Imam 
-                                   		</label>
-                                	</div>
-                                	<div class="radio">
-                                		<label for="radio1" class="form-check-label ">
-                                    		<input type="radio" id="radio1" name="position" value="Bilal" class="form-check-input">Bilal
-                                   		</label>
-                                	</div>
-                                	<div class="radio">
-                                		<label for="radio1" class="form-check-label ">
-                                    		<input type="radio" id="radio1" name="position" value="Staff" class="form-check-input">Staff
-                                   		</label>
-                                	</div>
-                                </div>
-                                </div>
-                                </div>
-							<div class="row form-group">
-                         		<div class="col col-md-3"><label for="text-input" class=" form-control-label">Manager ID :</label></div>
-                            	<div class="col-12 col-md-9"><input type="text" id="text-input" name="managerid" placeholder="Please leave it empty if the staff don't have a manager" class="form-control"><span class="help-block" id="errorname" style="color:red;"> </span></div>
-                            </div>																	
-							<div class="row form-group">
-								<div class="col col-md-3"><label for="hf-password" class=" form-control-label">Password</label></div>
-								<div class="col-12 col-md-9"><input type="password" id="hf-password" name="password" placeholder="Password 5 - 12 characters only" class="form-control"><span class="help-block" id="errorpassword" style="color:red;"></span>
-								</div>
-							</div>	
 							<div class="card-footer">
 								<button type="submit" id="submit" class="btn btn-primary btn-sm">
 									<i class="fa fa-dot-circle-o"></i> Submit
@@ -303,6 +287,17 @@ function clearInputs() {
 	<script src="vendors/jqvmap/dist/jquery.vmap.min.js"></script>
 	<script src="vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
 	<script src="vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+	<!-- Script untuk date time picker -->
+	      <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker2').datetimepicker();
+            });
+        </script>
 	<script>
         (function($) {
             "use strict";
@@ -321,6 +316,7 @@ function clearInputs() {
             });
         })(jQuery);
     </script>
+   
 
 </body>
 

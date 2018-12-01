@@ -23,7 +23,8 @@ public class IndoorEventDAO {
       
     	try {
     		currentCon = ConnectionManager.getConnection();
-    		ps=currentCon.prepareStatement("insert into indoor (eventid, indoorvenue, indoorguestname) values (eventid_id_seq,?,?)");
+    		ps=currentCon.prepareStatement("INSERT INTO INDOOR (EVENTID, INDOORVENUE, INDOORGUESTNAME) VALUES (?,?,?)");
+    		   		
     		ps.setString(1,eventid);
     		ps.setString(2,indoorvenue);
     		ps.setString(3,indoorguestname);

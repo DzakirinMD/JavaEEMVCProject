@@ -1,15 +1,13 @@
 package mosque.model;
 
-import java.sql.Date;
-
 public class EventBean {
 	
 	private String eventid;
 	private String eventname;
 	private String eventstaffincharges;
 	private int eventfee ;
-	private Date eventdatestarttime ;
-	private Date eventdateendtime  ;
+	private String eventdatestarttime ;
+	private String eventdateendtime  ;
 	private String staffid;
 	
 	public String getEventid() {
@@ -36,17 +34,17 @@ public class EventBean {
 	public void setEventfee(int i) {
 		this.eventfee = i;
 	}
-	public Date getEventdatestarttime() {
+	public String getEventdatestarttime() {
 		return eventdatestarttime;
 	}
-	public void setEventdatestarttime(Date date) {
-		this.eventdatestarttime = date;
+	public void setEventdatestarttime(String dtstart) {
+		this.eventdatestarttime = dtstart;
 	}
-	public Date getEventdateendtime() {
+	public String getEventdateendtime() {
 		return eventdateendtime;
 	}
-	public void setEventdateendtime(Date date) {
-		this.eventdateendtime = date;
+	public void setEventdateendtime(String dtend) {
+		this.eventdateendtime = dtend;
 	}
 	public String getStaffid() {
 		return staffid;
