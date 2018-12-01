@@ -116,9 +116,9 @@ function clearInputs() {
 </head>
 
 <body>
-	<%  String email = (String)session.getAttribute("currentSessionUser");%>
-	<%  String name = (String)session.getAttribute("sessionStaffname");%>
-
+<%  String email = (String)session.getAttribute("currentSessionUser");%>
+<%  String name = (String)session.getAttribute("sessionStaffname");%>
+ <%  String id = (String)session.getAttribute("sessionStaffID");%>
 	<!-- Left Panel -->
 
 	<aside id="left-panel" class="left-panel">
@@ -144,7 +144,10 @@ function clearInputs() {
 					<% if(name.equalsIgnoreCase("admin")) { %> 
 					<li class="active"><a href="/Test/StaffAccountController?action=registerStaff&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-pencil-square-o"></i>Register Staff</a><% } %></li>
 					<li class="active"><a href="/Test/StaffAccountController?action=viewAccount&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-user"></i>View Account</a></li>
-					<li class="active"><a href="/Test/StaffAccountController?action=updateAccount&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-user"></i>Update Account</a></li> 
+					<li class="active"><a href="/Test/StaffAccountController?action=updateAccount&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-refresh"></i>Update Account</a></li> 
+					<li class="active"><a href="/Test/EventController?action=viewEvent&email=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-tasks"></i>View Event</a></li>
+					<li class="active"><a href="/Test/EventController?action=createIndoorEvent&email=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-building-o"></i>Create Indoor Event</a></li> 
+					<li class="active"><a href="/Test/Test/EventController?action=createIndoorEvent&email=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-rocket"></i>Create Outdoor Event</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -184,13 +187,8 @@ function clearInputs() {
 
 				<div class="col-sm-5">
 					<div class="user-area dropdown float-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false">
-							<h5>
-								Welcome
-								<c:out value="<%=name%>" />
-								, Love to see you back.
-							</h5>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<h5>Welcome<c:out value="<%=name%>" />, Love to see you back.</h5>
 						</a>
 
 						<div class="user-menu dropdown-menu">

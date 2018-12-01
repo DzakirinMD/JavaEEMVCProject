@@ -4,18 +4,18 @@ import java.sql.Date;
 
 public class EventBean {
 	
-	private int eventid;
+	private String eventid;
 	private String eventname;
 	private String eventstaffincharges;
 	private int eventfee ;
 	private Date eventdatestarttime ;
 	private Date eventdateendtime  ;
-	private int staffid;
+	private String staffid;
 	
-	public int getEventid() {
+	public String getEventid() {
 		return eventid;
 	}
-	public void setEventid(int i) {
+	public void setEventid(String i) {
 		this.eventid = i;
 	}
 	public String getEventname() {
@@ -48,10 +48,10 @@ public class EventBean {
 	public void setEventdateendtime(Date date) {
 		this.eventdateendtime = date;
 	}
-	public int getStaffid() {
+	public String getStaffid() {
 		return staffid;
 	}
-	public void setStaffid(int i) {
+	public void setStaffid(String i) {
 		this.staffid = i;
 	}
 	

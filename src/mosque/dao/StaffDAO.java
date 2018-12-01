@@ -241,13 +241,13 @@ public class StaffDAO {
     
     
     //get user by email jstl
-    public StaffBean getUserByID(String id) {
+    public StaffBean getUserByID(String idadmin) {
         StaffBean user = new StaffBean();
         try {
         	currentCon = ConnectionManager.getConnection();
             ps=currentCon.prepareStatement("select * from staff where staffid=?");
             
-            ps.setString(1, id);
+            ps.setString(1, idadmin);
 
             ResultSet rs = ps.executeQuery();
 
@@ -277,7 +277,7 @@ public class StaffDAO {
   //get user by ic ni untuk jstl guna
 public static StaffBean getUser(StaffBean bean)  {
     	
-	staffID = bean.getStaffID();
+		staffID = bean.getStaffID();
 
         String searchQuery = "select * from staff where staffID='" + staffID + "'";
 

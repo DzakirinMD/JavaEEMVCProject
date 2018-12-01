@@ -28,14 +28,11 @@ import mosque.dao.StaffDAO;
 @WebServlet("/EventController")
 public class EventController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static String LOGIN = "/stafflogin.jsp";
 	private static String INDOOR = "/event/createEventIndoor.jsp";
 	private static String OUTDOOR = "/event/createEventOutdoor.jsp";
-	private static String REGISTER = "/event/createEvent.jsp";
-	private static String UPDATE = "/staff/updateAccount.jsp";
-	private static String INDEX = "/staff/index.jsp";
-    private static String VIEW = "/staff/viewAccount.jsp";
     private static String VIEWEVENT = "/event/viewEvent.jsp";
+    private static String DASHBOARD = "/staff/dashboard.jsp";
+    
     private EventDAO dao;
     private IndoorEventDAO idao;
     private OutdoorEventDAO odao;
@@ -62,26 +59,27 @@ public class EventController extends HttpServlet {
 		
 		String action = request.getParameter("action");
 
-		if (action.equalsIgnoreCase("indoorEvent")){
+		if (action.equalsIgnoreCase("viewEvent")){
+			forward = VIEWEVENT;        
+            String id = request.getParameter("id");//current section bean
+            StaffBean user = sdao.getUserByID(id); //guna staff sebab nak capture dia punya session
+            request.setAttribute("user", user);
+        }
+		else if (action.equalsIgnoreCase("createIndoorEvent")){
 			forward = INDOOR;        
-            String email = request.getParameter("email");//current section bean
-            StaffBean user = sdao.getUserByEmail(email); //guna staff sebab nak capture dia punya session
+            String id = request.getParameter("id");//current section bean
+            StaffBean user = sdao.getUserByID(id); //guna staff sebab nak capture dia punya session
             request.setAttribute("user", user);
         }
-		else if (action.equalsIgnoreCase("outdoorEvent")){
-			forward = OUTDOOR;        
-            String email = request.getParameter("email");//current section bean
-            StaffBean user = sdao.getUserByEmail(email); //guna staff sebab nak capture dia punya session
-            request.setAttribute("user", user);
-        }
-		else if (action.equalsIgnoreCase("viewEvent")){
-            String email= request.getParameter("email");
-            forward = VIEWEVENT;
+		else if (action.equalsIgnoreCase("createOutdoorEvent")){
+			forward = INDOOR; 
+			String id = request.getParameter("id");//current section bean
+			StaffBean user = sdao.getUserByID(id); //guna staff sebab nak capture dia punya session
             request.setAttribute("events", dao.getAllEvent()); 
         }
 		
 	    else {
-	           forward = REGISTER;
+	           forward = DASHBOARD;
 	    }
 		RequestDispatcher view = request.getRequestDispatcher(forward);
 	       view.forward(request, response);

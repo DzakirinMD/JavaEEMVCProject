@@ -15,7 +15,6 @@ import mosque.model.StaffBean;
 @WebServlet("/StaffAccountController")
 public class StaffAccountController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static String LOGIN = "staff-login.jsp";
 	private static String REGISTER = "/staff-register.jsp";
 	private static String UPDATE = "/staff/updateAccount.jsp";
     private static String VIEW = "/staff/viewAccount.jsp";
@@ -136,9 +135,20 @@ public class StaffAccountController extends HttpServlet {
     		
     		}
         	
-            RequestDispatcher view = request.getRequestDispatcher(LOGIN);
-            request.setAttribute("user", dao.getUserByEmail(email));
-            view.forward(request, response);
+        	HttpSession session = request.getSession(true);
+			session.setAttribute("currentSessionUser", user.getStaffEmail());
+			session.setAttribute("sessionStaffname", user.getStaffName());
+			session.setAttribute("sessionStaffID", user.getStaffID());
+			
+			forward = VIEW;
+           
+            user = dao.getUserByEmail(email);
+            request.setAttribute("user", user); //masukkan Staff object dalam session user
+            
+            RequestDispatcher view = request.getRequestDispatcher(forward);
+ 	        view.forward(request, response);		
+        	;
+            
         }
         
 

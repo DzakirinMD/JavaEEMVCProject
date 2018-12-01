@@ -52,9 +52,9 @@
 </head>
 
 <body>
-	<%  String email = (String)session.getAttribute("currentSessionUser");%>
-	<%  String name = (String)session.getAttribute("sessionStaffname");%>
-
+<%  String email = (String)session.getAttribute("currentSessionUser");%>
+<%  String name = (String)session.getAttribute("sessionStaffname");%>
+ <%  String id = (String)session.getAttribute("sessionStaffID");%>
 	<!-- Left Panel -->
 
 	<aside id="left-panel" class="left-panel">
@@ -80,7 +80,10 @@
 					<% if(name.equalsIgnoreCase("admin")) { %> 
 					<li class="active"><a href="/Test/StaffAccountController?action=registerStaff&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-pencil-square-o"></i>Register Staff</a><% } %></li>
 					<li class="active"><a href="/Test/StaffAccountController?action=viewAccount&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-user"></i>View Account</a></li>
-					<li class="active"><a href="/Test/StaffAccountController?action=updateAccount&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-user"></i>Update Account</a></li> 
+					<li class="active"><a href="/Test/StaffAccountController?action=updateAccount&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-refresh"></i>Update Account</a></li> 
+					<li class="active"><a href="/Test/EventController?action=viewEvent&email=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-tasks"></i>View Event</a></li>
+					<li class="active"><a href="/Test/EventController?action=createIndoorEvent&email=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-building-o"></i>Create Indoor Event</a></li> 
+					<li class="active"><a href="/Test/Test/EventController?action=createIndoorEvent&email=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-rocket"></i>Create Outdoor Event</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -145,33 +148,79 @@
 			<div class="animated fadeIn">
 		<!-- CONTENT -->
 
-		
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <strong class="card-title mb-3">Your Profile</strong>
-                            </div>
-                            <div class="card-body">
-                                <div class="mx-auto d-block">
-                                    
-                                    <h5 class="text-sm-center mt-2 mb-1"><i class="fa fa-user"></i> <c:out value="${user.staffName}" /></h5>           
 
-		<p><strong>Email:</strong> <c:out value="${user.staffEmail}" /></p>	
-		<p><strong>ID :</strong> <c:out value="${user.staffID}" /></p>
-		<p><strong>Name:</strong> <c:out value="${user.staffName}" /></p>
-		<p><strong>Address:</strong> <c:out value="${user.staffAddress}" /></p>
-		<p><strong>Phone:</strong> <c:out value="${user.staffNoTel}" /></p>
-		<p><strong>Position:</strong> <c:out value="${user.staffPos}" /></p>
-		<p><strong>Manager ID:</strong> <c:out value="${user.managerID}" /></p>
-    	<br/>
-    	<p><a href="StaffAccountController?action=updateAccount&email=<c:out value="<%=email%>" />">
-    	<b>Update Account</b></a></p>
-                                    
-                                    
-                                </div>                                             
+	<div class="card">
+					<div class="card-header">
+						<strong>Update Profile</strong>    
+					</div>
+					<div class="card-body card-block">
+						<form name="myForm" onsubmit="return validateForm()" method="post" action="StaffAccountController" class="form-horizontal">
+							<div class="row form-group">
+                              	<div class="col-12 col-md-9"><input type="hidden" id="disabled-input" name="staffID" value="<c:out value="${user.staffID}"/>" class="form-control"></div>
+                          	</div>
+							<div class="row form-group">
+                            	<div class="col-12 col-md-9"><input type="hidden" id="text-input" name="name" value="<c:out value="${user.staffName}"/>" class="form-control"></div>
                             </div>
-                        </div>
-                    </div>
+                            <div class="row form-group">
+                              	<div class="col col-md-3"><label for="textarea-input" class=" form-control-label">New Home Address :</label></div>
+								<div class="col-12 col-md-9"><textarea name="address" id="myTextarea" rows="9" cols="53" form="myform" class="form-control"><c:out value="${user.staffAddress}" /></textarea><span class="help-block" id="erroraddress" style="color:red;"> </span></div>
+                            </div>
+                            <div class="row form-group">
+                         		<div class="col col-md-3"><label for="text-input" class=" form-control-label">New Phone Number :</label></div>
+                            	<div class="col-12 col-md-9"><input type="text" id="text-input" name="notel" value="<c:out value="${user.staffNoTel}"/>" class="form-control"><span class="help-block" id="errorphone" style="color:red;"></span></div>
+                            </div>
+							<div class="row form-group">
+								<div class="col col-md-3"><label for="hf-email" class=" form-control-label">New Email :</label></div>
+								<div class="col-12 col-md-9"><input type="email" id="hf-email" name="email" value="<c:out value="${user.staffEmail}"/>" class="form-control"><span class="help-block" id="erroremail" style="color:red;"></span></div> 
+							</div>
+							<div class="row form-group">
+                            	<div class="col col-md-3"><label class=" form-control-label">New Position :</label></div>
+                            	<div class="col col-md-9">
+                                <div class="form-check">
+                                	<div class="radio">
+                                		<label for="radio1" class="form-check-label ">
+                                    		<input type="radio" id="radio1" name="position" value="Imam" class="form-check-input" checked="checked">Imam 
+                                   		</label>
+                                	</div>
+                                	<div class="radio">
+                                		<label for="radio1" class="form-check-label ">
+                                    		<input type="radio" id="radio1" name="position" value="Bilal" class="form-check-input">Bilal
+                                   		</label>
+                                	</div>
+                                	<div class="radio">
+                                		<label for="radio1" class="form-check-label ">
+                                    		<input type="radio" id="radio1" name="position" value="Staff" class="form-check-input">Staff
+                                   		</label>
+                                	</div>
+                                </div>
+                                </div>
+                                </div>
+							<div class="row form-group">
+                         		<div class="col col-md-3"><label for="text-input" class=" form-control-label">New Manager ID :</label></div>
+                            	<div class="col-12 col-md-9"><input type="text" id="text-input" name="managerid" value="<c:out value="${user.managerID}" />" class="form-control"><span class="help-block" id="errorname" style="color:red;"> </span></div>
+                            </div>																	
+							<div class="row form-group">
+								<div class="col col-md-3"><label for="hf-password" class=" form-control-label">New Password</label></div>
+								<div class="col-12 col-md-9"><input type="password" id="hf-password" name="password" value="<c:out value="${user.password}" />" class="form-control"><span class="help-block" id="errorpassword" style="color:red;"></span>
+								</div>
+							</div>	
+							<div class="card-footer">
+								<button type="submit" id="submit" class="btn btn-primary btn-sm">
+									<i class="fa fa-dot-circle-o"></i> Submit
+								</button>
+								<button type="reset" onclick="clearInputs()" class="btn btn-danger btn-sm">
+									<i class="fa fa-ban"></i> Reset
+								</button>
+							</div>
+						</form>
+					</div>
+					
+				</div>
+
+
+
+
+	
 		
 		
 		
