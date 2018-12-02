@@ -83,6 +83,7 @@
 					<li class="active"><a href="/Test/EventController?action=viewEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-tasks"></i>View Event</a></li>
 					<li class="active"><a href="/Test/EventController?action=createIndoorEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-building-o"></i>Create Indoor Event</a></li> 
 					<li class="active"><a href="/Test/EventController?action=createOutdoorEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-rocket"></i>Create Outdoor Event</a></li>
+					<li class="active"><a href="/Test/FeeController?action=viewFee&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-money"></i>View Registration Fee</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -145,87 +146,30 @@
 			<div class="animated fadeIn">
 
 
-  <!-- Indoor -->			
-<h2>Indoor Event</h2>    
+  <!-- Fee -->			
+<h2>Registration Fee</h2>    
   <table class="table table-hover">
     <thead>
       	<tr>
-			<th >Event ID</th>
-			<th >Event Name</th>
-			<th >Staff in charges</th>
+			<th >Fee ID</th>
+			<th >Fee Status</th>
+			<th >Receipt Number</th>
 			<th >Event Fee</th>
-			<th >Date/Time Begin</th>
-			<th >Date/Time End</th>
-			<th >Event creator</th>
-			<th >Venue</th>
-			<th >Guest Name</th>
-			<th ></th>
-			
+			<th >Time of Payment</th>
 		</tr>
     </thead>
     <tbody>
-     <c:forEach items="${ievents}" var="ievent">
-     	
+     <c:forEach items="${fees}" var="fee">	
                 <tr>
-                    <td><c:out value="${ievent.eventid}" /></td>
-                    <td><c:out value="${ievent.eventname}" /></td>
-                    <td><c:out value="${ievent.eventstaffincharges}" /></td>
-                    <td><c:out value="${ievent.eventfee}" /></td>
-                    <td><c:out value="${ievent.eventdatestarttime}" /></td>
-                    <td><c:out value="${ievent.eventdateendtime}" /></td>
-                    <td><c:out value="${ievent.staffid}" /></td>
-                     <td><c:out value="${ievent.indoorvenue}" /></td>
-                    <td><c:out value="${ievent.indoorguestname}" /></td>
-    
-                   
-                    <td><button type="button" class="btn btn-secondary"><i class="fa fa-refresh"></i>&nbsp; Update</button></td>
-                   
+                    <td><c:out value="${fee.feeid}" /></td>
+                    <td><c:out value="${fee.feestatus}" /></td>
+                    <td><c:out value="${fee.receiptnumber}" /></td>
+                    <td><c:out value="${fee.timeofpayment}" /></td>               
                 </tr>
         </c:forEach>
     </tbody>
   </table>
   
-  <!-- Outdoor -->
-  			
-<h2>Outdoor Event</h2>    
-  <table class="table table-hover">
-    <thead>
-      	<tr>
-			<th >Event ID</th>
-			<th >Event Name</th>
-			<th >Staff in charges</th>
-			<th >Event Fee</th>
-			<th >Date/Time Begin</th>
-			<th >Date/Time End</th>
-			<th >Event creator</th>
-			<th >Place</th>
-			<th >Organizer Name</th>
-			<th ></th>
-			
-		</tr>
-    </thead>
-    <tbody>
-     <c:forEach items="${oevents}" var="oevent">
-     	
-                <tr>
-                    <td><c:out value="${oevent.eventid}" /></td>
-                    <td><c:out value="${oevent.eventname}" /></td>
-                    <td><c:out value="${oevent.eventstaffincharges}" /></td>
-                    <td><c:out value="${oevent.eventfee}" /></td>
-                    <td><c:out value="${oevent.eventdatestarttime}" /></td>
-                    <td><c:out value="${oevent.eventdateendtime}" /></td>
-                    <td><c:out value="${oevent.staffid}" /></td>
-                     <td><c:out value="${oevent.outdoorplace}" /></td>
-                    <td><c:out value="${oevent.organizername}" /></td>
-    
-                   
-                    <td><button type="button" class="btn btn-secondary"><i class="fa fa-refresh"></i>&nbsp; Update</button></td>
-                   
-                </tr>
-        </c:forEach>
-    </tbody>
-  </table>
-			
 			
 
 

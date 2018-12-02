@@ -51,9 +51,10 @@
 </head>
 
 <body>
-<%  String email = (String)session.getAttribute("currentSessionUser");%>
-<%  String name = (String)session.getAttribute("sessionStaffname");%>
-<%  String id = (String)session.getAttribute("sessionStaffID");%>
+ <%  String ic = (String)session.getAttribute("currentSessionUser");%>
+ <%  String name = (String)session.getAttribute("sessionKariahname");%>
+ 
+ 
 	<!-- Left Panel -->
 
 	<aside id="left-panel" class="left-panel">
@@ -75,14 +76,10 @@
 
 			<div id="main-menu" class="main-menu collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/Test/StaffAccountController?action=dashboard&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-dashboard"></i>Dashboard</a></li> 
-					<% if(name.equalsIgnoreCase("admin")) { %> 
-					<li class="active"><a href="/Test/StaffAccountController?action=registerStaff&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-pencil-square-o"></i>Register Staff</a><% } %></li>
-					<li class="active"><a href="/Test/StaffAccountController?action=viewAccount&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-user"></i>View Account</a></li>
-					<li class="active"><a href="/Test/StaffAccountController?action=updateAccount&email=<c:out value="<%=email%>"/>"> <i class="menu-icon fa fa-refresh"></i>Update Account</a></li> 
-					<li class="active"><a href="/Test/EventController?action=viewEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-tasks"></i>View Event</a></li>
-					<li class="active"><a href="/Test/EventController?action=createIndoorEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-building-o"></i>Create Indoor Event</a></li> 
-					<li class="active"><a href="/Test/EventController?action=createOutdoorEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-rocket"></i>Create Outdoor Event</a></li>
+					<li class="active"><a href="/Test/AccountController?action=dashboard&ic=<c:out value="<%=ic%>"/>"> <i class="menu-icon fa fa-dashboard"></i>Dashboard</a></li> 
+					<li class="active"><a href="/Test/AccountController?action=viewAccount&ic=<c:out value="<%=ic%>"/>"> <i class="menu-icon fa fa-user"></i>View Account</a></li>
+					<li class="active"><a href="/Test/AccountController?action=updateAccount&ic=<c:out value="<%=ic%>"/>"> <i class="menu-icon fa fa-refresh"></i>Update Account</a></li> 
+					<li class="active"><a href="/Test/EventController?action=KariahViewEvent&ic=<c:out value="<%=ic%>"/>"> <i class="menu-icon fa fa-tasks"></i>View Event</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -127,8 +124,8 @@
 						</a>
 
 						<div class="user-menu dropdown-menu">
-							<a class="nav-link" href="/Test/StaffAccountController?action=viewAccount&email=<c:out value="<%=email%>"/>"><i class="fa fa-user"></i> MyProfile</a> 
-							<a class="nav-link" href="/Test/staff/logout.jsp"><i class="fa fa-power-off"></i> Logout</a>
+							<a class="nav-link" href="/Test/AccountController?action=viewAccount&email=<c:out value="<%=ic%>"/>"><i class="fa fa-user"></i> MyProfile</a> 
+                            <a class="nav-link" href="/Test/kariah/logout.jsp"><i class="fa fa-power-off"></i> Logout</a>
 						</div>
 					</div>
 
@@ -178,7 +175,7 @@
                     <td><c:out value="${ievent.indoorguestname}" /></td>
     
                    
-                    <td><button type="button" class="btn btn-secondary"><i class="fa fa-refresh"></i>&nbsp; Update</button></td>
+                    <td><button onclick="location.href='http://google.com';" type="button" class="btn btn-secondary"><i class="fa fa-refresh"></i>&nbsp; Join</button></td>
                    
                 </tr>
         </c:forEach>
@@ -219,7 +216,7 @@
                     <td><c:out value="${oevent.organizername}" /></td>
     
                    
-                    <td><button type="button" class="btn btn-secondary"><i class="fa fa-refresh"></i>&nbsp; Update</button></td>
+                    <td><button onclick="location.href='http://google.com';" type="button" class="btn btn-secondary"><i class="fa fa-refresh"></i>&nbsp; Join</button></td>
                    
                 </tr>
         </c:forEach>

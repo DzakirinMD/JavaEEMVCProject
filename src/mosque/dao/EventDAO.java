@@ -96,16 +96,19 @@ public class EventDAO {
         return eventid;
     }
     
-  //list Event Parent
-    public List<EventBean> getAllEvent() {
+  //list Indoor Event
+    public List<EventBean> getAllIndoorEvent() {
     	
-      List<EventBean> events = new ArrayList<EventBean>();
+      List<EventBean> ievents = new ArrayList<EventBean>();
       
       try {
       	currentCon = ConnectionManager.getConnection();
       	stmt = currentCon.createStatement();
       
-      	  String q = "select * from event";
+      	  String q = "select eventid,eventname,eventstaffincharges,eventfee,to_char(eventdatestarttime, 'DD-MON-YYYY HH:MM') as eventdatestarttime,to_char(eventdateendtime, 'DD-MON-YYYY HH:MM') as eventdateendtime,staffid,indoorvenue,indoorguestname\r\n" + 
+      	  		"from event \r\n" + 
+      	  		"join indoor \r\n" + 
+      	  		"using (eventid)";
           ResultSet rs = stmt.executeQuery(q);
           
           while (rs.next()) {
@@ -117,47 +120,56 @@ public class EventDAO {
         	  event.setEventdatestarttime(rs.getString("eventdatestarttime"));
         	  event.setEventdateendtime(rs.getString("eventdateendtime"));
         	  event.setStaffid(rs.getString("staffid"));
-              events.add(event);
+        	  event.setIndoorvenue(rs.getString("indoorvenue"));
+        	  event.setIndoorguestname(rs.getString("indoorguestname"));
+        	  ievents.add(event);
           }
       } catch (SQLException e) {
           e.printStackTrace();
       }
 
-      return events;
+      return ievents;
     }
     
-  //list Event Parent
-    public List<EventBean> getAllEventInOu() {
-    	
-      List<EventBean> events = new ArrayList<EventBean>();
-      
-      try {
-      	currentCon = ConnectionManager.getConnection();
-      	stmt = currentCon.createStatement();
-      
-      	  String q = "SELECT * FROM event JOIN indoor USING (eventid, eventid)";
-          ResultSet rs = stmt.executeQuery(q);
-          
-          while (rs.next()) {
-        	  EventBean event = new EventBean();
-        	  IndoorEventBean ievent = new IndoorEventBean();
-        	  event.setEventid(rs.getString("eventid"));
-        	  event.setEventname(rs.getString("eventname"));
-        	  event.setEventstaffincharges(rs.getString("eventstaffincharges"));
-        	  event.setEventfee(rs.getInt("eventfee"));
-        	  event.setEventdatestarttime(rs.getString("eventdatestarttime"));
-        	  event.setEventdateendtime(rs.getString("eventdateendtime"));
-        	  event.setStaffid(rs.getString("staffid"));
-        	  ievent.setIndoorvenue(rs.getString("indoorvenue"));
-        	  ievent.setIndoorguestname(rs.getString("indoorguestname"));
-              events.addAll(getAllEventInOu());
-          }
-      } catch (SQLException e) {
-          e.printStackTrace();
-      }
+    
+    
+    //list Outdoor Event
+      public List<EventBean> getAllOutdoorEvent() {
+      	
+        List<EventBean> oevents = new ArrayList<EventBean>();
+        
+        try {
+        	currentCon = ConnectionManager.getConnection();
+        	stmt = currentCon.createStatement();
+        
+        	  String q = "select eventid,eventname,eventstaffincharges,eventfee,to_char(eventdatestarttime, 'DD-MON-YYYY HH:MM') as eventdatestarttime,to_char(eventdateendtime, 'DD-MON-YYYY HH:MM') as eventdateendtime,staffid,outdoorplace,organizername\r\n" + 
+        	  		"from event \r\n" + 
+        	  		"join outdoor \r\n" + 
+        	  		"using (eventid)";
+            ResultSet rs = stmt.executeQuery(q);
+            
+            while (rs.next()) {
+          	  EventBean event = new EventBean();
+          	  event.setEventid(rs.getString("eventid"));
+          	  event.setEventname(rs.getString("eventname"));
+          	  event.setEventstaffincharges(rs.getString("eventstaffincharges"));
+          	  event.setEventfee(rs.getInt("eventfee"));
+          	  event.setEventdatestarttime(rs.getString("eventdatestarttime"));
+          	  event.setEventdateendtime(rs.getString("eventdateendtime"));
+          	  event.setStaffid(rs.getString("staffid"));
+          	  event.setOutdoorplace(rs.getString("outdoorplace"));
+          	  event.setOrganizername(rs.getString("organizername"));
+          	  oevents.add(event);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-      return events;
-    }
+        return oevents;
+      }
+      
+    
+ 
 
 
     

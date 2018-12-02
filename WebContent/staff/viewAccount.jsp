@@ -85,6 +85,7 @@
 					<li class="active"><a href="/Test/EventController?action=viewEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-tasks"></i>View Event</a></li>
 					<li class="active"><a href="/Test/EventController?action=createIndoorEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-building-o"></i>Create Indoor Event</a></li> 
 					<li class="active"><a href="/Test/EventController?action=createOutdoorEvent&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-rocket"></i>Create Outdoor Event</a></li>
+					<li class="active"><a href="/Test/FeeController?action=viewFee&id=<c:out value="<%=id%>"/>"> <i class="menu-icon fa fa-money"></i>View Registration Fee</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->

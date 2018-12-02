@@ -51,6 +51,57 @@
 
 </head>
 
+<script>
+function clearInputs() {
+	   document.getElementById('myTextarea').value = '';
+	}
+
+	function validateForm() {
+
+	    var address = document.getElementById("myTextarea").value;
+	    var phone = document.forms["myForm"]["notel"].value;
+	    var email = document.forms["myForm"]["email"].value;
+	    var password = document.forms["myForm"]["password"].value;
+	  
+	   	if (address == "") {
+	        document.getElementById("erroraddress").innerHTML = "Address cannot be empty !";
+	        return false;
+	    } else if (phone == "") {
+	        document.getElementById("errorphone").innerHTML = "Phone Number cannot be empty !";
+	        document.getElementById("erroraddress").innerHTML = "";
+	        return false;
+	    } else if (isNaN(phone) == true) {
+	        document.getElementById("errorphone").innerHTML = "Please enter number only !";
+	        return false;
+	    } else if (email == "") {
+	        document.getElementById("erroremail").innerHTML = "Email cannot be empty !";
+	        document.getElementById("errorphone").innerHTML = "";
+	        document.getElementById("erroraddress").innerHTML = "";
+	        return false;
+	    } else if (/^[^0-9][A-z0-9_]+[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/.test(email) != true) {
+	        document.getElementById("erroremail").innerHTML = "Your e-mail is NOT valid. Try again...";
+	        return false;
+	    } else if (password == "") {
+	        document.getElementById("errorpassword").innerHTML = "Password cannot be empty !";
+	        document.getElementById("erroremail").innerHTML = "";
+	        document.getElementById("errorphone").innerHTML = "";
+	        document.getElementById("erroraddress").innerHTML = "";
+	        return false;
+	    } else if (/^[a-zA-Z0-9.]{5,12}$/.test(password) != true) {
+	        document.getElementById("errorpassword").innerHTML = "Password 5 - 12 characters only";
+	        document.getElementById("erroremail").innerHTML = "";
+	        document.getElementById("errorphone").innerHTML = "";
+	        document.getElementById("erroraddress").innerHTML = ""; 
+	        return false;
+	    } 
+	    document.getElementById("errorpassword").innerHTML = "";
+	    alert("Registration Successfull !");   
+	}
+
+
+</script>
+
+
 <body>
 <%  String email = (String)session.getAttribute("currentSessionUser");%>
 <%  String name = (String)session.getAttribute("sessionStaffname");%>

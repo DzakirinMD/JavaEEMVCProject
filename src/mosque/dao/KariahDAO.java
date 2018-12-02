@@ -4,9 +4,6 @@ import java.util.*;
 import java.sql.*;
 
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import mosque.model.KariahBean;
 import mosque.connection.ConnectionManager;

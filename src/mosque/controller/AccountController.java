@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import mosque.dao.KariahDAO;
 import mosque.model.KariahBean;
+import mosque.model.StaffBean;
 
 
 /**
@@ -18,7 +19,7 @@ public class AccountController extends HttpServlet {
 	private static String LOGIN = "/login.jsp";
 	private static String REGISTER = "/register.jsp";
 	private static String UPDATE = "/kariah/updateAccount.jsp";
-	private static String INDEX = "/kariah/index.jsp";
+	private static String DASHBOARD = "/kariah/index.jsp";
     private static String VIEW = "/kariah/viewAccount.jsp";
     private KariahDAO dao;
     String forward="";
@@ -41,21 +42,25 @@ public class AccountController extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		String action = request.getParameter("action");
-
-		if (action.equalsIgnoreCase("updateAccount")){
+		
+		if (action.equalsIgnoreCase("dashboard")){
+			forward = DASHBOARD;   
+			String ic= request.getParameter("ic");
+	        KariahBean user = dao.getUserByIC(ic);
+	        request.setAttribute("user", user);
+	    } else if (action.equalsIgnoreCase("viewAccount")){
+			forward = VIEW;   
+			String ic= request.getParameter("ic");
+	        KariahBean user = dao.getUserByIC(ic);
+	        request.setAttribute("user", user);
+	           
+	    } else if (action.equalsIgnoreCase("updateAccount")){
 			forward = UPDATE;
             String ic = request.getParameter("ic");//current section bean
             KariahBean user = dao.getUserByIC(ic);
             request.setAttribute("user", user);
         }
-		else if (action.equalsIgnoreCase("viewAccount")){
-			forward = VIEW;   
-			String ic= request.getParameter("ic");
-	               KariahBean user = dao.getUserByIC(ic);
-	        request.setAttribute("user", user);
-	           
-	    }
-	    else {
+			    else {
 	           forward = REGISTER;
 	    }
 		RequestDispatcher view = request.getRequestDispatcher(forward);
@@ -105,9 +110,17 @@ public class AccountController extends HttpServlet {
     			e.printStackTrace();
     		}
         	
-            RequestDispatcher view = request.getRequestDispatcher(VIEW);
-            request.setAttribute("user", dao.getUserByIC(ic));
-            view.forward(request, response);
+        	HttpSession session = request.getSession(true);
+			session.setAttribute("currentSessionUser", user.getKariahic());
+			session.setAttribute("sessionKariahname", user.getKariahname());
+			
+			forward = VIEW;
+           
+            user = dao.getUserByIC(ic);
+            request.setAttribute("user", user); //masukkan Staff object dalam session user
+            
+            RequestDispatcher view = request.getRequestDispatcher(forward);
+ 	        view.forward(request, response);
         }
         
 

@@ -29,15 +29,15 @@
     <link rel="apple-touch-icon" href="apple-icon.png">
     <link rel="shortcut icon" href="favicon.ico">
 
-    <link rel="stylesheet" href="../vendors/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../vendors/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../vendors/themify-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="../vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="../vendors/selectFX/css/cs-skin-elastic.css">
-    <link rel="stylesheet" href="../vendors/jqvmap/dist/jqvmap.min.css">
+    <link rel="stylesheet" href="vendors/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendors/themify-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="vendors/selectFX/css/cs-skin-elastic.css">
+    <link rel="stylesheet" href="vendors/jqvmap/dist/jqvmap.min.css">
 
 
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
@@ -46,6 +46,9 @@
 <body>
  <%  String ic = (String)session.getAttribute("currentSessionUser");%>
  <%  String name = (String)session.getAttribute("sessionKariahname");%>
+ 
+ 
+ 
 
     <!-- Left Panel -->
 
@@ -56,17 +59,19 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="./"><img src="../images/logo.png" alt="Logo"></a> <!-- Logo Kat tepi panel -->
-                <a class="navbar-brand hidden" href="./"><img src="../images/logo2.png" alt="Logo"></a> <!-- Logo Kat tepi panel bila scroll-->
+                <a class="navbar-brand" href="./"><img src="images/logo.png" alt="Logo"></a> <!-- Logo Kat tepi panel -->
+                <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a> <!-- Logo Kat tepi panel bila scroll-->
             </div>
 
-            <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="../index.html"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
+            	<div id="main-menu" class="main-menu collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="/Test/AccountController?action=dashboard&ic=<c:out value="<%=ic%>"/>"> <i class="menu-icon fa fa-dashboard"></i>Dashboard</a></li> 
+					<li class="active"><a href="/Test/AccountController?action=viewAccount&ic=<c:out value="<%=ic%>"/>"> <i class="menu-icon fa fa-user"></i>View Account</a></li>
+					<li class="active"><a href="/Test/AccountController?action=updateAccount&ic=<c:out value="<%=ic%>"/>"> <i class="menu-icon fa fa-refresh"></i>Update Account</a></li> 
+					<li class="active"><a href="/Test/EventController?action=KariahViewEvent&ic=<c:out value="<%=ic%>"/>"> <i class="menu-icon fa fa-tasks"></i>View Event</a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
         </nav>
     </aside><!-- /#left-panel -->
 
@@ -101,12 +106,7 @@
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a>
-
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
-
-                            <a class="nav-link" href="#"><i class="fa fa-cog"></i> Settings</a>
-
+                         	<a class="nav-link" href="/Test/AccountController?action=viewAccount&email=<c:out value="<%=ic%>"/>"><i class="fa fa-user"></i> MyProfile</a> 
                             <a class="nav-link" href="/Test/kariah/logout.jsp"><i class="fa fa-power-off"></i> Logout</a>
                         </div>
                     </div>
@@ -136,6 +136,11 @@
                 </div>
             </div>
         </div>
+        
+        
+        
+        
+        
 
         <div class="content mt-3">
 
@@ -521,18 +526,18 @@
 
     <!-- Right Panel -->
 
-    <script src="../vendors/jquery/dist/jquery.min.js"></script>
-    <script src="../vendors/popper.js/dist/umd/popper.min.js"></script>
-    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../assets/js/main.js"></script>
+    <script src="vendors/jquery/dist/jquery.min.js"></script>
+    <script src="vendors/popper.js/dist/umd/popper.min.js"></script>
+    <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="assets/js/main.js"></script>
 
 
-    <script src="../vendors/chart.js/dist/Chart.bundle.min.js"></script>
-    <script src="../assets/js/dashboard.js"></script>
-    <script src="../assets/js/widgets.js"></script>
-    <script src="../vendors/jqvmap/dist/jquery.vmap.min.js"></script>
-    <script src="../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-    <script src="../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+    <script src="vendors/chart.js/dist/Chart.bundle.min.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+    <script src="assets/js/widgets.js"></script>
+    <script src="vendors/jqvmap/dist/jquery.vmap.min.js"></script>
+    <script src="vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <script src="vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
     <script>
         (function($) {
             "use strict";

@@ -9,7 +9,35 @@ public class EventBean {
 	private String eventdatestarttime ;
 	private String eventdateendtime  ;
 	private String staffid;
+	private String indoorvenue;
+	private String indoorguestname;
+	private String outdoorplace;
+	private String organizername;
 	
+	public String getOutdoorplace() {
+		return outdoorplace;
+	}
+	public void setOutdoorplace(String outdoorplace) {
+		this.outdoorplace = outdoorplace;
+	}
+	public String getOrganizername() {
+		return organizername;
+	}
+	public void setOrganizername(String organizername) {
+		this.organizername = organizername;
+	}
+	public String getIndoorvenue() {
+		return indoorvenue;
+	}
+	public void setIndoorvenue(String indoorvenue) {
+		this.indoorvenue = indoorvenue;
+	}
+	public String getIndoorguestname() {
+		return indoorguestname;
+	}
+	public void setIndoorguestname(String indoorguestname) {
+		this.indoorguestname = indoorguestname;
+	}
 	public String getEventid() {
 		return eventid;
 	}

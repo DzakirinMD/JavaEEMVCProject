@@ -16,6 +16,7 @@ import mosque.dao.OutdoorEventDAO;
 import mosque.model.OutdoorEventBean;
 import mosque.dao.IndoorEventDAO;
 import mosque.dao.EventDAO;
+import mosque.dao.FeeDAO;
 import mosque.model.EventBean;
 import mosque.model.IndoorEventBean;
 import mosque.model.StaffBean;
@@ -27,15 +28,16 @@ import mosque.dao.StaffDAO;
  * Servlet implementation class EventController
  */
 @WebServlet("/EventController")
-public class EventController extends HttpServlet {
+public class FeeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static String INDOOR = "/event/createEventIndoor.jsp";
 	private static String OUTDOOR = "/event/createEventOutdoor.jsp";
     private static String VIEWEVENT = "/event/viewEvent.jsp";
-    private static String KARIAHVIEWEVENT = "/event/kariahViewEvent.jsp";
+    private static String VIEWFEE = "/fee/staffFee.jsp";
     private static String DASHBOARD = "/staff/index.jsp";
     
-    private EventDAO dao;
+    private FeeDAO dao;
+  
     private IndoorEventDAO idao;
     private OutdoorEventDAO odao;
     private StaffDAO sdao;
@@ -43,9 +45,9 @@ public class EventController extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EventController() {
+    public FeeController() {
         super();
-        dao = new EventDAO();
+        dao = new FeeDAO();
         idao = new IndoorEventDAO();
         odao = new OutdoorEventDAO();
         sdao = new StaffDAO();
@@ -61,32 +63,12 @@ public class EventController extends HttpServlet {
 		
 		String action = request.getParameter("action");
 		
-		if (action.equalsIgnoreCase("KariahViewEvent")){
-            forward = KARIAHVIEWEVENT;
-            request.setAttribute("ievents", dao.getAllIndoorEvent()); 
-            request.setAttribute("oevents", dao.getAllOutdoorEvent()); 
-           // request.setAttribute("ievents", idao.getAllIndoorEvent());
-           // request.setAttribute("indoor", dao.getAllEventInOu());
-        } else if (action.equalsIgnoreCase("viewEvent")){
-            forward = VIEWEVENT;
-            request.setAttribute("ievents", dao.getAllIndoorEvent()); 
-            request.setAttribute("oevents", dao.getAllOutdoorEvent()); 
-           // request.setAttribute("ievents", idao.getAllIndoorEvent());
-           // request.setAttribute("indoor", dao.getAllEventInOu());
-        } else if (action.equalsIgnoreCase("createIndoorEvent")){
-			forward = INDOOR;        
-            String id = request.getParameter("id");//current section bean
-            StaffBean user = sdao.getUserByID(id); //guna staff sebab nak capture dia punya session
-            request.setAttribute("user", user);
-        }
-		else if (action.equalsIgnoreCase("createOutdoorEvent")){
-			forward = OUTDOOR; 
-			String id = request.getParameter("id");//current section bean
-			StaffBean user = sdao.getUserByID(id); //guna staff sebab nak capture dia punya session
-            request.setAttribute("user", user); 
-        }
-		
-	    else {
+		if (action.equalsIgnoreCase("viewFee")){
+            forward = VIEWFEE;
+            request.setAttribute("fees", dao.getAllFee()); 
+        } 		
+	    
+		else {
 	           forward = DASHBOARD;
 	    }
 		RequestDispatcher view = request.getRequestDispatcher(forward);

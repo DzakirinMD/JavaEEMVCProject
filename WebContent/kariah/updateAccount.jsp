@@ -1,105 +1,298 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
-	response.setHeader("Cache-Control", "no-cache");
-	response.setHeader("Cache-Control", "no-store");
-	response.setHeader("Pragma", "no-cache");
-	response.setDateHeader("Expires", 0);
-	if (session.getAttribute("currentSessionUser") == null)
-		response.sendRedirect("/Test/login.jsp");
+  response.setHeader("Cache-Control","no-cache");
+  response.setHeader("Cache-Control","no-store");
+  response.setHeader("Pragma","no-cache");
+  response.setDateHeader ("Expires", 0);
+  if(session.getAttribute("currentSessionUser")==null)   
+      response.sendRedirect("/Test/login.jsp");
 %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta charset="ISO-8859-1">
-<title>Update Account</title>
-<!-- BOOTSTRAP STYLES-->
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-     <!-- FONTAWESOME STYLES-->
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-        <!-- CUSTOM STYLES-->
-    <link href="assets/css/custom.css" rel="stylesheet" />
-     <!-- GOOGLE FONTS-->
-   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-</head>
-<body>
-	<%	String ic = (String)session.getAttribute("currentSessionUser");%>
 
-<div id="wrapper">
-        <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Kariah Dashboard</title>
+    <meta name="description" content="Sufee Admin - HTML5 Admin Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link rel="stylesheet" href="vendors/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendors/themify-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="vendors/selectFX/css/cs-skin-elastic.css">
+    <link rel="stylesheet" href="vendors/jqvmap/dist/jqvmap.min.css">
+
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+
+</head>
+
+
+<script>
+function clearInputs() {
+	   document.getElementById('myTextarea').value = '';
+	}
+
+	function validateForm() {
+
+	    var address = document.getElementById("myTextarea").value;
+	    var phone = document.forms["myForm"]["notel"].value;
+	    var email = document.forms["myForm"]["email"].value;
+	    var password = document.forms["myForm"]["password"].value;
+	  
+	   	if (address == "") {
+	        document.getElementById("erroraddress").innerHTML = "Address cannot be empty !";
+	        return false;
+	    } else if (phone == "") {
+	        document.getElementById("errorphone").innerHTML = "Phone Number cannot be empty !";
+	        document.getElementById("erroraddress").innerHTML = "";
+	        return false;
+	    } else if (isNaN(phone) == true) {
+	        document.getElementById("errorphone").innerHTML = "Please enter number only !";
+	        return false;
+	    } else if (email == "") {
+	        document.getElementById("erroremail").innerHTML = "Email cannot be empty !";
+	        document.getElementById("errorphone").innerHTML = "";
+	        document.getElementById("erroraddress").innerHTML = "";
+	        return false;
+	    } else if (/^[^0-9][A-z0-9_]+[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/.test(email) != true) {
+	        document.getElementById("erroremail").innerHTML = "Your e-mail is NOT valid. Try again...";
+	        return false;
+	    } else if (password == "") {
+	        document.getElementById("errorpassword").innerHTML = "Password cannot be empty !";
+	        document.getElementById("erroremail").innerHTML = "";
+	        document.getElementById("errorphone").innerHTML = "";
+	        document.getElementById("erroraddress").innerHTML = "";
+	        return false;
+	    } else if (/^[a-zA-Z0-9.]{5,12}$/.test(password) != true) {
+	        document.getElementById("errorpassword").innerHTML = "Password 5 - 12 characters only";
+	        document.getElementById("erroremail").innerHTML = "";
+	        document.getElementById("errorphone").innerHTML = "";
+	        document.getElementById("erroraddress").innerHTML = ""; 
+	        return false;
+	    } 
+	    document.getElementById("errorpassword").innerHTML = "";
+	    alert("Registration Successfull !");   
+	}
+
+
+</script>
+
+<body>
+ <%  String ic = (String)session.getAttribute("currentSessionUser");%>
+ <%  String name = (String)session.getAttribute("sessionKariahname");%>
+ 
+ 
+ 
+
+    <!-- Left Panel -->
+
+    <aside id="left-panel" class="left-panel">
+        <nav class="navbar navbar-expand-sm navbar-default">
+
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="index.html">Manage Account Page</a> 
+                <a class="navbar-brand" href="./"><img src="images/logo.png" alt="Logo"></a> <!-- Logo Kat tepi panel -->
+                <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a> <!-- Logo Kat tepi panel bila scroll-->
             </div>
-        </nav>   
-           <!-- /. NAV TOP  -->
-                <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu">
-				<li class="text-center">
-                    <img src="assets/img/find_user.png" class="user-image img-responsive"/>
-					</li>
-				   <li class='active'><a href="/Test/customer/index.jsp"><i class="fa fa-dashboard fa-3x"></i>Home</a></li>
-				   <li><a href="/Test/customer/menu.jsp"><i class="fa fa-edit fa-3x"></i>Register Event</a></li>
-				   <li><a href="/Test/OrderController?action=listOrder&ic=<c:out value="<%=ic%>"/>"><i class="fa fa-desktop fa-3x"></i>Event Listing</a></li> 
-				   <li><a href="/Test/AccountController?action=viewAccount&ic=<c:out value="<%=ic%>"/>"><i class="fa fa-desktop fa-3x"></i>My Account </a></li>
-				   <li><a href="/Test/customer/logout.jsp"><i class="fa fa-square-o fa-3x"></i>Logout</a></li>
+
+            	<div id="main-menu" class="main-menu collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="/Test/AccountController?action=dashboard&ic=<c:out value="<%=ic%>"/>"> <i class="menu-icon fa fa-dashboard"></i>Dashboard</a></li> 
+					<li class="active"><a href="/Test/AccountController?action=viewAccount&ic=<c:out value="<%=ic%>"/>"> <i class="menu-icon fa fa-user"></i>View Account</a></li>
+					<li class="active"><a href="/Test/AccountController?action=updateAccount&ic=<c:out value="<%=ic%>"/>"> <i class="menu-icon fa fa-refresh"></i>Update Account</a></li> 
+					<li class="active"><a href="/Test/EventController?action=KariahViewEvent&ic=<c:out value="<%=ic%>"/>"> <i class="menu-icon fa fa-tasks"></i>View Event</a></li>
 				</ul>
 			</div>
-   </div>
-	</nav>  
-        <!-- /. NAV SIDE  -->
-        <div id="page-wrapper" >
-            <div id="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-                     <h2>Update Account</h2>   
-                        <h5><p>Current IC: <b><c:out value="<%=ic%>" /></b></p> </h5>
+			<!-- /.navbar-collapse -->
+        </nav>
+    </aside><!-- /#left-panel -->
+
+    <!-- Left Panel -->
+
+    <!-- Right Panel -->
+
+    <div id="right-panel" class="right-panel">
+
+        <!-- Header-->
+        <header id="header" class="header">
+
+            <div class="header-menu">
+
+                <div class="col-sm-7">
+                    <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
+                    <div class="header-left">
+                        <button class="search-trigger"><i class="fa fa-search"></i></button>
+                        <div class="form-inline">
+                            <form class="search-form">
+                                <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
+                                <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
+                            </form>
+                        </div>                
                     </div>
                 </div>
-        <!-- /. ROW  -->
-                 <hr />
-               <div class="row">
-                <div class="col-md-12">
-                    <!-- Form Elements -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Update Staff Information
+
+                <div class="col-sm-5">
+                    <div class="user-area dropdown float-right">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           <h5>Welcome <c:out value="<%=name%>"/> , Love to see you back. </h5>
+                        </a>
+
+                        <div class="user-menu dropdown-menu">
+                         	<a class="nav-link" href="/Test/AccountController?action=viewAccount&email=<c:out value="<%=ic%>"/>"><i class="fa fa-user"></i> MyProfile</a> 
+                            <a class="nav-link" href="/Test/kariah/logout.jsp"><i class="fa fa-power-off"></i> Logout</a>
                         </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-6">   
-	<form method="post" action="AccountController">
-		<div class="form-group">
-		<label>Your IC:</label><br> 
-		<input type="text" name="ic" value="<c:out value="<%=ic%>" />" readonly>
-		</div>
-		<div class="form-group">
-		<label>New Email:</label><br>
-		<input type="email" name="email" value="<c:out value="${user.kariahemail}" />" required>
-		</div>
-		<div class="form-group">
-		<label>New Address:</label><br>
-		<input type="text" name="address" value="<c:out value="${user.kariahaddress}" />" required>
-		</div>
-		<div class="form-group">
-		<label>New Phone:</label><br> 
-		<input type="text" name="notel" value="<c:out value="${user.kariahnotel}" />" required>
-		</div>
-		<div class="form-group">
-		<label>New Password:</label><br> 
-		<input type="password" name="password" value="<c:out value="${user.password}" />" required>
-		</div>
-		 <br> <input  class="btn btn-success" type="submit" value="Submit">
-		<input  class="btn btn-danger" type="reset" value="Reset">
-	</form>
+                    </div>
+
+                </div>
+            </div>
+
+        </header><!-- /header -->
+        <!-- Header-->
+<div class="content mt-3">
+			<div class="animated fadeIn">
+		<!-- CONTENT -->
+
+		
+        <div class="card">
+					<div class="card-header">
+						<strong>Update Profile</strong>    
+					</div>
+					<div class="card-body card-block">
+						<form name="myForm" onsubmit="return validateForm()" method="post" action="AccountController" class="form-horizontal">
+							<div class="row form-group">
+                              	<div class="col-12 col-md-9"><input type="hidden" id="disabled-input" name="ic" value="<c:out value="${user.kariahic}"/>" class="form-control"></div>
+                          	</div>                          
+							<div class="row form-group">
+                            	<div class="col-12 col-md-9"><input type="hidden" id="text-input" name="name" value="<c:out value="${user.kariahname}"/>" class="form-control"></div>
+                            </div>
+                            <div class="row form-group">
+                              	<div class="col col-md-3"><label for="textarea-input" class=" form-control-label">New Home Address :</label></div>
+								<div class="col-12 col-md-9"><textarea name="address" id="myTextarea" rows="9" cols="53" form="myform" class="form-control"><c:out value="${user.kariahaddress}" /></textarea><span class="help-block" id="erroraddress" style="color:red;"> </span></div>
+                            </div>
+                            <div class="row form-group">
+                         		<div class="col col-md-3"><label for="text-input" class=" form-control-label">New Phone Number :</label></div>
+                            	<div class="col-12 col-md-9"><input type="text" id="text-input" name="notel" value="<c:out value="${user.kariahnotel}"/>" class="form-control"><span class="help-block" id="errorphone" style="color:red;"></span></div>
+                            </div>
+							<div class="row form-group">
+								<div class="col col-md-3"><label for="hf-email" class=" form-control-label">New Email :</label></div>
+								<div class="col-12 col-md-9"><input type="email" id="hf-email" name="email" value="<c:out value="${user.kariahemail}"/>" class="form-control"><span class="help-block" id="erroremail" style="color:red;"></span></div> 
+							</div>
+							<div class="row form-group">
+                              	<div class="col-12 col-md-9"><input type="hidden" id="disabled-input" name="gender" value="<c:out value="${user.kariahgender}"/>" class="form-control"></div>
+                          	</div>																
+							<div class="row form-group">
+								<div class="col col-md-3"><label for="hf-password" class=" form-control-label">New Password</label></div>
+								<div class="col-12 col-md-9"><input type="password" id="hf-password" name="password" value="<c:out value="${user.password}" />" class="form-control"><span class="help-block" id="errorpassword" style="color:red;"></span>
+								</div>
+							</div>	
+							<div class="card-footer">
+								<button type="submit" id="submit" class="btn btn-primary btn-sm">
+									<i class="fa fa-dot-circle-o"></i> Submit
+								</button>
+								<button type="reset" onclick="clearInputs()" class="btn btn-danger btn-sm">
+									<i class="fa fa-ban"></i> Reset
+								</button>
+							</div>
+						</form>
+					</div>
+					
+				</div>
+
+
+
+		
+		
+		
+		
+   
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			</div>	<!-- end of mt-3 -->
+		</div> <!-- End of animate -->
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        
+        
+  
+	
+	
+	
+	
+	
+	</div>
+    <!-- Right Panel -->
+
+    <script src="vendors/jquery/dist/jquery.min.js"></script>
+    <script src="vendors/popper.js/dist/umd/popper.min.js"></script>
+    <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="assets/js/main.js"></script>
+
+
+    <script src="vendors/chart.js/dist/Chart.bundle.min.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+    <script src="assets/js/widgets.js"></script>
+    <script src="vendors/jqvmap/dist/jquery.vmap.min.js"></script>
+    <script src="vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <script src="vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+    <script>
+        (function($) {
+            "use strict";
+
+            jQuery('#vmap').vectorMap({
+                map: 'world_en',
+                backgroundColor: null,
+                color: '#ffffff',
+                hoverOpacity: 0.7,
+                selectedColor: '#1de9b6',
+                enableZoom: true,
+                showTooltip: true,
+                values: sample_data,
+                scaleColors: ['#1de9b6', '#03a9f5'],
+                normalizeFunction: 'polynomial'
+            });
+        })(jQuery);
+    </script>
+
 </body>
+
 </html>
