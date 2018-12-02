@@ -4,12 +4,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.DateTime;
 
 import java.security.NoSuchAlgorithmException;
 
 import mosque.model.EventBean;
-import mosque.model.StaffBean;
+import mosque.model.IndoorEventBean;
 import mosque.connection.ConnectionManager;
 
 public class EventDAO {
@@ -97,7 +96,7 @@ public class EventDAO {
         return eventid;
     }
     
-  //list order by email (customer)
+  //list Event Parent
     public List<EventBean> getAllEvent() {
     	
       List<EventBean> events = new ArrayList<EventBean>();
@@ -111,12 +110,6 @@ public class EventDAO {
           
           while (rs.next()) {
         	  EventBean event = new EventBean();
-//        	  event.setOrderid(rs.getInt("orderid"));
-//        	  event.setCrust(rs.getString("crust"));
-//        	  event.setExtracheese(rs.getString("extracheese"));
-//        	  event.setTopping(rs.getString("topping"));
-//        	  event.setQuantity(rs.getInt("quantity"));
-//        	  event.setEmail(rs.getString("email"));
         	  event.setEventid(rs.getString("eventid"));
         	  event.setEventname(rs.getString("eventname"));
         	  event.setEventstaffincharges(rs.getString("eventstaffincharges"));
@@ -125,6 +118,39 @@ public class EventDAO {
         	  event.setEventdateendtime(rs.getString("eventdateendtime"));
         	  event.setStaffid(rs.getString("staffid"));
               events.add(event);
+          }
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
+
+      return events;
+    }
+    
+  //list Event Parent
+    public List<EventBean> getAllEventInOu() {
+    	
+      List<EventBean> events = new ArrayList<EventBean>();
+      
+      try {
+      	currentCon = ConnectionManager.getConnection();
+      	stmt = currentCon.createStatement();
+      
+      	  String q = "SELECT * FROM event JOIN indoor USING (eventid, eventid)";
+          ResultSet rs = stmt.executeQuery(q);
+          
+          while (rs.next()) {
+        	  EventBean event = new EventBean();
+        	  IndoorEventBean ievent = new IndoorEventBean();
+        	  event.setEventid(rs.getString("eventid"));
+        	  event.setEventname(rs.getString("eventname"));
+        	  event.setEventstaffincharges(rs.getString("eventstaffincharges"));
+        	  event.setEventfee(rs.getInt("eventfee"));
+        	  event.setEventdatestarttime(rs.getString("eventdatestarttime"));
+        	  event.setEventdateendtime(rs.getString("eventdateendtime"));
+        	  event.setStaffid(rs.getString("staffid"));
+        	  ievent.setIndoorvenue(rs.getString("indoorvenue"));
+        	  ievent.setIndoorguestname(rs.getString("indoorguestname"));
+              events.addAll(getAllEventInOu());
           }
       } catch (SQLException e) {
           e.printStackTrace();

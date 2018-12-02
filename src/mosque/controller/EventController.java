@@ -2,16 +2,7 @@ package mosque.controller;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
+
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -41,7 +32,7 @@ public class EventController extends HttpServlet {
 	private static String INDOOR = "/event/createEventIndoor.jsp";
 	private static String OUTDOOR = "/event/createEventOutdoor.jsp";
     private static String VIEWEVENT = "/event/viewEvent.jsp";
-    private static String DASHBOARD = "/staff/dashboard.jsp";
+    private static String DASHBOARD = "/staff/index.jsp";
     
     private EventDAO dao;
     private IndoorEventDAO idao;
@@ -70,12 +61,10 @@ public class EventController extends HttpServlet {
 		String action = request.getParameter("action");
 
 		if (action.equalsIgnoreCase("viewEvent")){
-			forward = VIEWEVENT;        
-            String id = request.getParameter("id");//current section bean
-            StaffBean user = sdao.getUserByID(id); //guna staff sebab nak capture dia punya session
+            forward = VIEWEVENT;
             request.setAttribute("events", dao.getAllEvent()); 
-        }
-		else if (action.equalsIgnoreCase("createIndoorEvent")){
+            request.setAttribute("ievents", idao.getAllIndoorEvent()); 
+        } else if (action.equalsIgnoreCase("createIndoorEvent")){
 			forward = INDOOR;        
             String id = request.getParameter("id");//current section bean
             StaffBean user = sdao.getUserByID(id); //guna staff sebab nak capture dia punya session
@@ -129,6 +118,10 @@ public class EventController extends HttpServlet {
 		String outdoor = request.getParameter("outdoor");
 		String email = request.getParameter("email");
 		
+		String ivenue = request.getParameter("ivenue");
+		String igname = request.getParameter("igname");
+		System.out.println(ivenue + " venue ngan guest name" +igname);
+		
 //		user.setStaffEmail(email);
 //		
 //		user = StaffDAO.getUser(user);
@@ -142,18 +135,23 @@ public class EventController extends HttpServlet {
         		
         		if (indoor.equalsIgnoreCase("indoor")) { //kalau outdoor event xda id masuk data dalam indoor event
         			String i = idforchild.getEventid();
+        		
         			
-        			
-        			System.out.println(i);
+        			System.out.println(ivenue);
+        			System.out.println(igname);
+        		
         			
         			
         			IndoorEventBean iEventBean = new IndoorEventBean();
         			iEventBean.setEventid(i);
-        			iEventBean.setIndoorvenue(request.getParameter("ivenue"));
-        			iEventBean.setIndoorguestname(request.getParameter("igname"));
+//        			iEventBean.setIndoorvenue(request.getParameter("ivenue"));
+        			iEventBean.setIndoorvenue(ivenue);
+//        			iEventBean.setIndoorguestname(request.getParameter("igname"));
+        			iEventBean.setIndoorguestname(igname);
         			
     				idao.add(iEventBean);
     				System.out.println("Indoor Event Created !!!!!!");
+    			 				
         		} else if (outdoor.equalsIgnoreCase("outdoor")) { //kalau indoor event xda id masuk data dalam indoor event
         			String i = idforchild.getEventid();
         			
@@ -177,14 +175,19 @@ public class EventController extends HttpServlet {
         	
         	// tanya lecturer mcm mana nk grab session
         	
-        	HttpSession session = request.getSession(true);
-			session.getAttribute("currentSessionUser");
-			response.sendRedirect("/Test/staff/index.jsp"); // logged-in page
+//        	HttpSession session = request.getSession(true);
+//			session.getAttribute("currentSessionUser");
+//			response.sendRedirect("/Test/staff/index.jsp"); // logged-in page
         	
-//            RequestDispatcher view = request.getRequestDispatcher(INDEX);
-//            String aemail = request.getParameter("email");//current section bean
-//            request.setAttribute("user", sdao.getUserByEmail(aemail));
-//            view.forward(request, response);  
+			forward = DASHBOARD;   
+			String id= request.getParameter("idadmin");
+	        StaffBean currentUser = sdao.getUserByID(id);
+	        request.setAttribute("user", currentUser);
+            
+            System.out.println("Current user is : " + id );
+	        
+	        RequestDispatcher view = request.getRequestDispatcher(forward);
+		    view.forward(request, response);
 
         }
 		

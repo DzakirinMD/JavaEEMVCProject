@@ -200,7 +200,10 @@ function clearInputs() {
 						<strong>Indoor Event Form</strong>  
 					</div>
 					<div class="card-body card-block">
-						<form name="myForm" onsubmit="return validateForm()" method="post" action="EventController" class="form-horizontal">		
+						<form name="myForm" onsubmit="return validateForm()" method="post" action="EventController" class="form-horizontal">
+						<div class="row form-group">
+                              	<div class="col-12 col-md-9"><input type="hidden" id="disabled-input" name="idadmin" value="<c:out value="${user.staffID}" />" class="form-control"></div>
+                        </div>		
 						<!-- PARENT EVENT -->					
 							<div class="row form-group">
                          		<div class="col col-md-3"><label for="text-input" class=" form-control-label">Event Name :</label></div>

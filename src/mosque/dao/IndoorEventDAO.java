@@ -1,8 +1,11 @@
 package mosque.dao;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.security.NoSuchAlgorithmException;
 
+import mosque.model.EventBean;
 import mosque.model.IndoorEventBean;
 import mosque.connection.ConnectionManager;
 
@@ -56,6 +59,33 @@ public class IndoorEventDAO {
     			currentCon = null;
     		}
     	}
+    }
+    
+    //list order by email (customer)
+    public List<IndoorEventBean> getAllIndoorEvent() {
+    	
+      List<IndoorEventBean> ievents = new ArrayList<IndoorEventBean>();
+      
+      try {
+      	currentCon = ConnectionManager.getConnection();
+      	stmt = currentCon.createStatement();
+      
+      	  String q = "select * from indoor";
+          ResultSet rs = stmt.executeQuery(q);
+          
+          while (rs.next()) {
+        	  IndoorEventBean ievent = new IndoorEventBean();
+        	  
+        	  ievent.setEventid(rs.getString("eventid"));
+        	  ievent.setIndoorvenue(rs.getString("indoorvenue"));
+        	  ievent.setIndoorguestname(rs.getString("indoorguestname"));        	  
+        	  ievents.add(ievent);
+          }
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
+
+      return ievents;
     }
     
 
